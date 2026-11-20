@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | National Internship & Attachment Portal</title>
+    <style>
+        :root {
+            --primary-color: #0F2942;
+            --accent-color: #2563EB;
+            --accent-hover: #1D4ED8;
+            --success-color: #059669;
+            --warning-color: #D97706;
+            --danger-color: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVBAR */
+        .site-header {
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .student-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout-btn {
+            background-color: rgba(220, 38, 38, 0.2);
+            color: #FCA5A5;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--danger-color);
+            color: #FFFFFF;
+        }
+
+        /* MAIN CONTENT AREA */
+        main {
+            padding: 40px 0;
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        /* TAB PANELS */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* GRIDS & CARDS */
+        .job-grid, .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* FORM CONTROLS INSIDE CARDS */
+        .apply-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: auto;
+        }
+
+        .file-input-wrapper {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .file-input-wrapper input {
+            margin-top: 4px;
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-pending { background-color: #FEF3C7; color: var(--warning-color); }
+        .status-accepted { background-color: #D1FAE5; color: var(--success-color); }
+        .status-rejected { background-color: #FEE2E2; color: var(--danger-color); }
+
+        .msg-box {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* PROFILE PANEL */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            max-width: 500px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .profile-row:last-child { border-bottom: none; }
+        .profile-label { font-weight: 600; color: var(--text-muted); }
+        .profile-val { color: var(--text-dark); font-weight: 500; }
+
+        /* FOOTER */
+        .site-footer {
+            background-color: #091E32;
+            color: #94A3B8;
+            padding: 25px 0;
+            margin-top: auto;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Student Navigation -->
+    <header class="site-header">
+        <div class="container nav-container">
+            <div class="logo">Student Portal</div>
+            <nav class="student-nav">
+                <button class="nav-tab active" onclick="switchTab('browse')">Browse Opportunities</button>
+                <button class="nav-tab" onclick="switchTab('tracker')">My Applications</button>
+                <button class="nav-tab" onclick="switchTab('profile')">My Profile</button>
+                <button class="logout-btn" onclick="logout()">Sign Out</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- ================= TAB 1: BROWSE OPPORTUNITIES ================= -->
+        <div id="tab-browse" class="tab-panel active">
+            <h1 class="section-title">Available Nationwide Opportunities</h1>
+            <p class="section-subtitle">Browse verified internships and industrial attachments and submit your application with your CV.</p>
+            <div id="studentJobList" class="job-grid">
+                <p style="color: var(--text-muted);">Loading active listings...</p>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: MY APPLICATIONS TRACKER ================= -->
+        <div id="tab-tracker" class="tab-panel">
+            <h1 class="section-title">Application Status Tracker</h1>
+            <p class="section-subtitle">Monitor the live review progress of all positions you have applied for.</p>
+            <div id="studentTrackerList" class="app-grid">
+                <p style="color: var(--text-muted);">Loading your submitted applications...</p>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: PROFILE ================= -->
+        <div id="tab-profile" class="tab-panel">
+            <h1 class="section-title">Student Profile</h1>
+            <p class="section-subtitle">Your registered account credentials and assigned student identifier.</p>
+            <div class="profile-card">
+                <div class="profile-row">
+                    <span class="profile-label">Applicant ID:</span>
+                    <span class="profile-val" id="profileIdDisplay">--</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">User Role:</span>
+                    <span class="profile-val">Student / Applicant</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-label">Session Status:</span>
+                    <span class="profile-val" style="color: var(--success-color);">Active & Verified</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 National Internship & Industrial Attachment Portal | Student Workspace</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Controller -->
+    <script>
+        // Retrieve student session identifiers from localStorage
+        const studentId = localStorage.getItem('profileId') || 1; // Fallback to 1 for quick testing
+
+        // Tab Switching Engine
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+
+            if (tabName === 'browse') {
+                document.getElementById('tab-browse').classList.add('active');
+                event.target.classList.add('active');
+                loadStudentListings();
+            } else if (tabName === 'tracker') {
+                document.getElementById('tab-tracker').classList.add('active');
+                event.target.classList.add('active');
+                loadStudentApplications();
+            } else if (tabName === 'profile') {
+                document.getElementById('tab-profile').classList.add('active');
+                event.target.classList.add('active');
+                document.getElementById('profileIdDisplay').innerText = studentId;
+            }
+        }
+
+        // 1. Fetch Listings & Render Apply Form with File Upload
+        async function loadStudentListings() {
+            const container = document.getElementById('studentJobList');
+            container.innerHTML = '<p style="color: var(--text-muted);">Fetching listings...</p>';
+
+            try {
+                const res = await fetch('/api/listings');
+                const listings = await res.json();
+
+                if (!res.ok || listings.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted);">No internship opportunities available at the moment.</p>';
+                    return;
+                }
+
+                container.innerHTML = listings.map(job => `
+                    <div class="card">
+                        <div>
+                            <h3>${job.title}</h3>
+                            <div class="card-meta">🏢 ${job.company_name || 'Organization'} | 📍 ${job.location || 'Kenya'}</div>
+                            <div class="card-desc">${job.description}</div>
+                        </div>
+                        <form class="apply-form" onsubmit="submitStudentApplication(event, ${job.listing_id})">
+                            <div class="file-input-wrapper">
+                                <label style="font-weight: 600; display:block; margin-bottom:4px;">Attach CV / Resume (.pdf, .doc)</label>
+                                <input type="file" id="cvFile-${job.listing_id}" accept=".pdf,.doc,.docx" required>
+                            </div>
+                            <button type="submit" class="btn">Submit Application</button>
+                            <div id="msg-${job.listing_id}" class="msg-box"></div>
+                        </form>
+                    </div>
+                `).join('');
+            } catch (err) {
+                container.innerHTML = '<p style="color: var(--danger-color);">Error connecting to server.</p>';
+            }
+        }
+
+        // 2. Submit Application with File Upload (Multer)
+        async function submitStudentApplication(event, listingId) {
+            event.preventDefault();
+            const fileInput = document.getElementById(`cvFile-${listingId}`);
+            const msgBox = document.getElementById(`msg-${listingId}`);
+
+            if (!fileInput.files[0]) {
+                msgBox.style.color = 'var(--danger-color)';
+                msgBox.innerText = 'Please attach your CV document.';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('listing_id', listingId);
+            formData.append('applicant_id', studentId);
+            formData.append('resume', fileInput.files[0]);
+
+            msgBox.style.color = 'var(--accent-color)';
+            msgBox.innerText = 'Uploading CV & applying...';
+
+            try {
+                const res = await fetch('/api/applications', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await res.json();
+
+                if (res.ok) {
+                    msgBox.style.color = 'var(--success-color)';
+                    msgBox.innerText = 'Application submitted successfully!';
+                    fileInput.value = '';
+                } else {
+                    msgBox.style.color = 'var(--danger-color)';
+                    msgBox.innerText = result.error || 'Failed to submit application.';
+                }
+            } catch (err) {
+                msgBox.style.color = 'var(--danger-color)';
+                msgBox.innerText = 'Network error: ' + err.message;
+            }
+        }
+
+        // 3. Load Student Applications for Tracker Tab
+        async function loadStudentApplications() {
+            const container = document.getElementById('studentTrackerList');
+            container.innerHTML = '<p style="color: var(--text-muted);">Loading your applications...</p>';
+
+            try {
+                const res = await fetch(`/api/applicant/applications/${studentId}`);
+                const apps = await res.json();
+
+                if (!res.ok || apps.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted);">You have not applied to any job listings yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = apps.map(app => {
+                    let badgeClass = 'status-pending';
+                    if (app.status === 'Accepted') badgeClass = 'status-accepted';
+                    if (app.status === 'Rejected') badgeClass = 'status-rejected';
+
+                    return `
+                        <div class="card">
+                            <div>
+                                <h3>${app.job_title}</h3>
+                                <div class="card-meta">🏢 ${app.company_name} | 📍 ${app.location}</div>
+                                <p style="font-size: 0.9rem; margin-bottom: 15px;">
+                                    Status: <span class="status-badge ${badgeClass}">${app.status}</span>
+                                </p>
+                            </div>
+                            <small style="color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px;">
+                                Applied on: ${new Date(app.applied_at).toLocaleDateString()}
+                            </small>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<p style="color: var(--danger-color);">Error fetching application tracker data.</p>';
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // Initial Load on Page Open
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStudentListings();
+            document.getElementById('profileIdDisplay').innerText = studentId;
+        });
+    </script>
+</body>
+</html>

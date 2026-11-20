@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | National Internship Portal</title>
+    <style>
+        :root {
+            --primary-color: #0F2942;
+            --accent-color: #2563EB;
+            --success-color: #059669;
+            --bg-light: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 30px 0;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--success-color);
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #047857;
+        }
+
+        .toggle-text {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            color: var(--text-muted);
+        }
+
+        .toggle-text a {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>Create Nationwide Account</h2>
+
+        <form id="regForm">
+            <div class="form-group">
+                <label for="regEmail">Email Address</label>
+                <input
+                    type="email"
+                    id="regEmail"
+                    required
+                    placeholder="user@domain.co.ke"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">Password</label>
+                <input
+                    type="password"
+                    id="regPassword"
+                    required
+                    placeholder="••••••••"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="regRole">Account Role</label>
+                <select id="regRole" onchange="toggleRegFields()">
+                    <option value="applicant">Student / Applicant</option>
+                    <option value="employer">Employer / Organization</option>
+                </select>
+            </div>
+
+            <div id="studentRegFields">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="Juma">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Otieno">
+                </div>
+            </div>
+
+            <div id="employerRegFields" class="hidden">
+                <div class="form-group">
+                    <label for="companyName">Organization / Company Name</label>
+                    <input
+                        type="text"
+                        id="companyName"
+                        placeholder="Nairobi Tech Corp"
+                        disabled
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <input
+                        type="text"
+                        id="industry"
+                        placeholder="Technology"
+                        disabled
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="companyLocation">Organization Location</label>
+                    <input
+                        type="text"
+                        id="companyLocation"
+                        placeholder="Nairobi"
+                        disabled
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="contactPerson">Contact Person</label>
+                    <input
+                        type="text"
+                        id="contactPerson"
+                        placeholder="Contact person's name"
+                        disabled
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Register Account</button>
+        </form>
+
+        <div id="regMessage" class="status-message"></div>
+
+        <div class="toggle-text">
+            Already have an account? <a href="login.html">Sign in here</a>
+        </div>
+
+        <a href="index.html" class="back-home">&larr; Back to Home</a>
+    </div>
+
+    <script>
+        function toggleRegFields() {
+            const role = document.getElementById('regRole').value;
+            const studentFields = document.getElementById('studentRegFields');
+            const employerFields = document.getElementById('employerRegFields');
+            const employerInputs = employerFields.querySelectorAll('input');
+
+            if (role === 'employer') {
+                studentFields.classList.add('hidden');
+                employerFields.classList.remove('hidden');
+
+                employerInputs.forEach((input) => {
+                    input.disabled = false;
+                    input.required = true;
+                });
+            } else {
+                studentFields.classList.remove('hidden');
+                employerFields.classList.add('hidden');
+
+                employerInputs.forEach((input) => {
+                    input.disabled = true;
+                    input.required = false;
+                });
+            }
+        }
+
+        document.getElementById('regForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const role = document.getElementById('regRole').value;
+
+            const data = {
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                role,
+                first_name: document.getElementById('firstName').value,
+                last_name: document.getElementById('lastName').value,
+                company_name: document.getElementById('companyName').value,
+                industry: document.getElementById('industry').value,
+                location: document.getElementById('companyLocation').value,
+                contact_person: document.getElementById('contactPerson').value
+            };
+
+            const message = document.getElementById('regMessage');
+            message.style.color = 'var(--accent-color)';
+            message.innerText = 'Processing registration...';
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    message.style.color = 'var(--success-color)';
+                    message.innerText =
+                        result.message || 'Registration successful. Redirecting to login...';
+
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1200);
+                } else {
+                    message.style.color = '#DC2626';
+                    message.innerText =
+                        result.message || result.error || 'Registration failed.';
+                }
+            } catch (error) {
+                message.style.color = '#DC2626';
+                message.innerText = 'Network error: ' + error.message;
+            }
+        });
+
+        toggleRegFields();
+    </script>
+</body>
+</html>
